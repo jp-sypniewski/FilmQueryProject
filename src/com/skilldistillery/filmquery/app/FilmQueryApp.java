@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 import com.skilldistillery.filmquery.database.DatabaseAccessor;
 import com.skilldistillery.filmquery.database.DatabaseAccessorObject;
+import com.skilldistillery.filmquery.entities.Actor;
 import com.skilldistillery.filmquery.entities.Film;
 
 public class FilmQueryApp {
@@ -29,6 +30,19 @@ public class FilmQueryApp {
 
 		input.close();
 	}
+	
+	private void filmPrintout(Film film) {
+		System.out.println("-----");
+		System.out.println("Title: " + film.getTitle() + "\nRelease Year: " + film.getReleaseYear()
+				+ "\nRating: " + film.getRating() + "\nDescription: " + film.getDescription()
+				+ "\nLanguage: " + film.getLanguage());
+		System.out.println("*Actors*");
+		int i = 1;
+		for (Actor actor : film.getActors()) {
+			System.out.println(i + ": " + actor.getFirstName() + " " + actor.getLastName());
+			i++;
+		}
+	}
 
 	private void startUserInterface(Scanner input) {
 		int mainMenuChoice = 0;
@@ -36,7 +50,7 @@ public class FilmQueryApp {
 		String filmKeywordChoice = "";
 
 		while (true) {
-			System.out.println("-----");
+			System.out.println("---------");
 			System.out.println("Select an option:");
 			System.out.println("1: Look up film by ID");
 			System.out.println("2: Look up film by search keyword");
@@ -49,10 +63,7 @@ public class FilmQueryApp {
 				if (film == null) {
 					System.out.println("No film with ID: " + filmIdChoice);
 				} else {
-					System.out.println("-----");
-					System.out.println("Title: " + film.getTitle() + "\nRelease Year: " + film.getReleaseYear()
-							+ "\nRating: " + film.getRating() + "\nDescription: " + film.getDescription()
-							+ "\nLanguage: " + film.getLanguage());
+					filmPrintout(film);
 				}
 
 			}
@@ -65,10 +76,7 @@ public class FilmQueryApp {
 					System.out.println("No films match the search term: " + filmKeywordChoice);
 				} else {
 					for (Film film : filmList) {
-						System.out.println("-----");
-						System.out.println("Title: " + film.getTitle() + "\nRelease Year: " + film.getReleaseYear()
-								+ "\nRating: " + film.getRating() + "\nDescription: " + film.getDescription()
-								+ "\nLanguage: " + film.getLanguage());
+						filmPrintout(film);
 					}
 				}
 
