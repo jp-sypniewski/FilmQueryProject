@@ -1,5 +1,7 @@
 package com.skilldistillery.filmquery.app;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import com.skilldistillery.filmquery.database.DatabaseAccessor;
@@ -47,16 +49,25 @@ public class FilmQueryApp {
 				if (film == null) {
 					System.out.println("No film with ID: " + filmIdChoice);
 				} else {
-					System.out.println("Title: " + film.getTitle() + 
-							"\nRelease Year: " + film.getReleaseYear() + 
-							"\nRating: " + film.getRating() + 
-							"\nDescription: " + film.getDescription());
+					System.out.println("Title: " + film.getTitle() + "\nRelease Year: " + film.getReleaseYear()
+							+ "\nRating: " + film.getRating() + "\nDescription: " + film.getDescription());
 				}
 
 			}
 			if (mainMenuChoice == 2) {
 				System.out.print("Enter your search keyword: ");
 				filmKeywordChoice = input.next();
+				List<Film> filmList = db.findFilmsBySearch(filmKeywordChoice);
+
+				if (filmList.size() == 0) {
+					System.out.println("No films match the search term: " + filmKeywordChoice);
+				} else {
+					for (Film film : filmList) {
+						System.out.println("Title: " + film.getTitle() + "\nRelease Year: " + film.getReleaseYear()
+								+ "\nRating: " + film.getRating() + "\nDescription: " + film.getDescription());
+					}
+				}
+
 			}
 			if (mainMenuChoice == 3) {
 				System.out.println("Goodbye.");

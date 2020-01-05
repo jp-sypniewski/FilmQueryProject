@@ -101,10 +101,10 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 
 		return actorList;
 	}
-	
+
 	public List<Film> findFilmsBySearch(String inputText) {
 		List<Film> filmList = new ArrayList<>();
-		
+
 		String sql = "select * from film where title like ? or description like ?";
 		try {
 			Connection conn = DriverManager.getConnection(URL, user, pw);
@@ -112,14 +112,18 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 			pstmt.setString(1, "%" + inputText + "%");
 			pstmt.setString(2, "%" + inputText + "%");
 			ResultSet rs = pstmt.executeQuery();
-			
-			
-			
+
+			while (rs.next()) {
+				filmList.add(new Film(rs.getInt("id"), rs.getString("title"), rs.getString("description"),
+						rs.getInt("release_year"), rs.getInt("language_id"), rs.getInt("rental_duration"),
+						rs.getDouble("rental_rate"), rs.getInt("length"), rs.getDouble("replacement_cost"),
+						rs.getString("rating"), rs.getString("special_features"), findActorsByFilmId(rs.getInt("id"))));
+			}
+
 		} catch (SQLException e) {
 			System.err.println(e);
 		}
-		
-		
+
 		return filmList;
 	}
 
