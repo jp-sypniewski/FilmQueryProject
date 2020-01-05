@@ -28,7 +28,7 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 	@Override
 	public Film findFilmById(int filmId) {
 		Film film = null;
-		String sql = "select * from film where id = ?";
+		String sql = "select * from film join language on film.language_id = language.id where film.id = ?";
 
 		try {
 			Connection conn = DriverManager.getConnection(URL, user, pw);
@@ -38,9 +38,10 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 
 			if (rs.next()) {
 				film = new Film(rs.getInt("id"), rs.getString("title"), rs.getString("description"),
-						rs.getInt("release_year"), rs.getInt("language_id"), rs.getInt("rental_duration"),
-						rs.getDouble("rental_rate"), rs.getInt("length"), rs.getDouble("replacement_cost"),
-						rs.getString("rating"), rs.getString("special_features"), findActorsByFilmId(rs.getInt("id")));
+						rs.getInt("release_year"), rs.getInt("language_id"), rs.getString("name"), // note: name is the name of the language
+						rs.getInt("rental_duration"), rs.getDouble("rental_rate"), rs.getInt("length"),
+						rs.getDouble("replacement_cost"), rs.getString("rating"), rs.getString("special_features"),
+						findActorsByFilmId(rs.getInt("id")));
 			}
 
 			rs.close();
@@ -94,6 +95,10 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 			while (rs.next()) {
 				actorList.add(new Actor(rs.getInt("id"), rs.getString("first_name"), rs.getString("last_name")));
 			}
+			
+			rs.close();
+			pstmt.close();
+			conn.close();
 
 		} catch (SQLException e) {
 			System.err.println(e);
@@ -105,7 +110,7 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 	public List<Film> findFilmsBySearch(String inputText) {
 		List<Film> filmList = new ArrayList<>();
 
-		String sql = "select * from film where title like ? or description like ?";
+		String sql = "select * from film join language on film.language_id = language.id where title like ? or description like ?";
 		try {
 			Connection conn = DriverManager.getConnection(URL, user, pw);
 			PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -115,10 +120,15 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 
 			while (rs.next()) {
 				filmList.add(new Film(rs.getInt("id"), rs.getString("title"), rs.getString("description"),
-						rs.getInt("release_year"), rs.getInt("language_id"), rs.getInt("rental_duration"),
-						rs.getDouble("rental_rate"), rs.getInt("length"), rs.getDouble("replacement_cost"),
-						rs.getString("rating"), rs.getString("special_features"), findActorsByFilmId(rs.getInt("id"))));
+						rs.getInt("release_year"), rs.getInt("language_id"), rs.getString("name"), // note name is the name of the language
+						rs.getInt("rental_duration"), rs.getDouble("rental_rate"), rs.getInt("length"),
+						rs.getDouble("replacement_cost"), rs.getString("rating"), rs.getString("special_features"),
+						findActorsByFilmId(rs.getInt("id"))));
 			}
+			
+			rs.close();
+			pstmt.close();
+			conn.close();
 
 		} catch (SQLException e) {
 			System.err.println(e);

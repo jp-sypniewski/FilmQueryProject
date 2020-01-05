@@ -1,6 +1,5 @@
 package com.skilldistillery.filmquery.app;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -18,10 +17,10 @@ public class FilmQueryApp {
 		app.launch();
 	}
 
-	private void test() {
-		Film film = db.findFilmById(1);
-		System.out.println(film);
-	}
+//	private void test() {
+//		Film film = db.findFilmById(1);
+//		System.out.println(film);
+//	}
 
 	private void launch() {
 		Scanner input = new Scanner(System.in);
@@ -37,6 +36,7 @@ public class FilmQueryApp {
 		String filmKeywordChoice = "";
 
 		while (true) {
+			System.out.println("-----");
 			System.out.println("Select an option:");
 			System.out.println("1: Look up film by ID");
 			System.out.println("2: Look up film by search keyword");
@@ -49,8 +49,10 @@ public class FilmQueryApp {
 				if (film == null) {
 					System.out.println("No film with ID: " + filmIdChoice);
 				} else {
+					System.out.println("-----");
 					System.out.println("Title: " + film.getTitle() + "\nRelease Year: " + film.getReleaseYear()
-							+ "\nRating: " + film.getRating() + "\nDescription: " + film.getDescription());
+							+ "\nRating: " + film.getRating() + "\nDescription: " + film.getDescription()
+							+ "\nLanguage: " + film.getLanguage());
 				}
 
 			}
@@ -63,8 +65,10 @@ public class FilmQueryApp {
 					System.out.println("No films match the search term: " + filmKeywordChoice);
 				} else {
 					for (Film film : filmList) {
+						System.out.println("-----");
 						System.out.println("Title: " + film.getTitle() + "\nRelease Year: " + film.getReleaseYear()
-								+ "\nRating: " + film.getRating() + "\nDescription: " + film.getDescription());
+								+ "\nRating: " + film.getRating() + "\nDescription: " + film.getDescription()
+								+ "\nLanguage: " + film.getLanguage());
 					}
 				}
 
