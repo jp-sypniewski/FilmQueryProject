@@ -28,7 +28,14 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 	@Override
 	public Film findFilmById(int filmId) {
 		Film film = null;
-		String sql = "select * from film join language on film.language_id = language.id where film.id = ?";
+		String sql = "select film.id as id, title, description, release_year, language_id,"
+				+ " language.name as film_language, rental_duration, rental_rate, length, replacement_cost,"
+				+ " rating, special_features, category.name as film_category"
+				+ " from film"
+				+ " join language on film.language_id = language.id"
+				+ " join film_category on film.id = film_category.film_id"
+				+ " join category on film_category.category_id = category.id"
+				+ " where film.id = ?";
 
 		try {
 			Connection conn = DriverManager.getConnection(URL, user, pw);
@@ -38,10 +45,10 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 
 			if (rs.next()) {
 				film = new Film(rs.getInt("id"), rs.getString("title"), rs.getString("description"),
-						rs.getInt("release_year"), rs.getInt("language_id"), rs.getString("name"), // note: name is the name of the language
+						rs.getInt("release_year"), rs.getInt("language_id"), rs.getString("film_language"),
 						rs.getInt("rental_duration"), rs.getDouble("rental_rate"), rs.getInt("length"),
 						rs.getDouble("replacement_cost"), rs.getString("rating"), rs.getString("special_features"),
-						findActorsByFilmId(rs.getInt("id")));
+						findActorsByFilmId(rs.getInt("id")), rs.getString("film_category"));
 			}
 
 			rs.close();
@@ -49,7 +56,7 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 			conn.close();
 
 		} catch (SQLException e) {
-			System.err.println(e);
+			e.printStackTrace();;
 		}
 
 		return film;
@@ -106,11 +113,20 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 
 		return actorList;
 	}
-
+	
+	@Override
 	public List<Film> findFilmsBySearch(String inputText) {
 		List<Film> filmList = new ArrayList<>();
-
-		String sql = "select * from film join language on film.language_id = language.id where title like ? or description like ?";
+		
+		String sql = "select film.id as id, title, description, release_year, language_id,"
+				+ " language.name as film_language, rental_duration, rental_rate, length, replacement_cost,"
+				+ " rating, special_features, category.name as film_category"
+				+ " from film"
+				+ " join language on film.language_id = language.id"
+				+ " join film_category on film.id = film_category.film_id"
+				+ " join category on film_category.category_id = category.id"
+				+ " where title like ? or description like ?";
+		
 		try {
 			Connection conn = DriverManager.getConnection(URL, user, pw);
 			PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -120,10 +136,10 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 
 			while (rs.next()) {
 				filmList.add(new Film(rs.getInt("id"), rs.getString("title"), rs.getString("description"),
-						rs.getInt("release_year"), rs.getInt("language_id"), rs.getString("name"), // note name is the name of the language
+						rs.getInt("release_year"), rs.getInt("language_id"), rs.getString("film_language"), // note name is the name of the language
 						rs.getInt("rental_duration"), rs.getDouble("rental_rate"), rs.getInt("length"),
 						rs.getDouble("replacement_cost"), rs.getString("rating"), rs.getString("special_features"),
-						findActorsByFilmId(rs.getInt("id"))));
+						findActorsByFilmId(rs.getInt("id")), rs.getString("film_category")));
 			}
 			
 			rs.close();

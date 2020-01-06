@@ -16,6 +16,7 @@ public class Film {
 	private String rating;
 	private String specialFeatures;
 	private List<Actor> actors;
+	private String category;
 
 	@Override
 	public String toString() {
@@ -27,7 +28,7 @@ public class Film {
 
 	public Film(int id, String title, String description, int releaseYear, int languageId, String language,
 			int rentalDuration, double rentalRate, int length, double replacementCost, String rating,
-			String specialFeatures, List<Actor> actors) {
+			String specialFeatures, List<Actor> actors, String category) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -42,6 +43,7 @@ public class Film {
 		this.rating = rating;
 		this.specialFeatures = specialFeatures;
 		this.actors = actors;
+		this.category = category;
 	}
 
 	// hashcode and equals
@@ -223,5 +225,13 @@ public class Film {
 
 	public void setActors(List<Actor> actors) {
 		this.actors = actors;
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
 	}
 }

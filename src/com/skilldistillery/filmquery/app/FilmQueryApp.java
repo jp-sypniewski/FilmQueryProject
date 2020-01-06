@@ -34,7 +34,8 @@ public class FilmQueryApp {
 	private void filmDisplay(Film film) {
 		System.out.println("-----");
 		System.out.println("Title: " + film.getTitle() + "\nRelease Year: " + film.getReleaseYear() + "\nRating: "
-				+ film.getRating() + "\nDescription: " + film.getDescription() + "\nLanguage: " + film.getLanguage());
+				+ film.getRating() + "\nDescription: " + film.getDescription() + "\nLanguage: " 
+				+ film.getLanguage() + "\nCategory: " + film.getCategory());
 		System.out.println("*Actors*");
 		int i = 1;
 		for (Actor actor : film.getActors()) {
