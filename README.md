@@ -12,7 +12,8 @@ This project provides a command-line application which retrieves and displays fi
 - Object-relational mapping
   - Film and actor objects created by row specific data
 - SQL
-  - Queries with chained joins
+  - Select statements with joins
+  - Bind parameters
 
 
 #### Technologies Used
@@ -22,3 +23,8 @@ This project provides a command-line application which retrieves and displays fi
 
 
 #### Lessons Learned
+
+- SQL column name aliases
+  - Adding tables to the original can result in naming conflicts.  To resolve these conflicts and improve the readability of the code, these columns are renamed within queries to more relevant names in the returned dataset.
+- Refactoring code for readability
+  - Both user options in the main menu provide for "displaying" a film, so by creating a method used under each option, the output only need be updated once to add features (e.g. a film's category).

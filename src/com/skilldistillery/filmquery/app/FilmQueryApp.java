@@ -52,19 +52,6 @@ public class FilmQueryApp {
 						+ "\nRental Duration: " + film.getRentalDuration() + "\nRental Rate: " + film.getRentalRate()
 						+ "\nLength: " + film.getLength() + "\nReplacement Cost: " + film.getReplacementCost()
 						+ "\nRating: " + film.getRating() + "\nSpecial Features: " + film.getSpecialFeatures()
-//		private int id;
-//		private String title;
-//		private String description;
-//		private int releaseYear;
-//		private int languageId;
-//		private String language;
-//		private int rentalDuration;
-//		private double rentalRate;
-//		private int length;
-//		private double replacementCost;
-//		private String rating;
-//		private String specialFeatures;
-//		private List<Actor> actors;
 		);
 	}
 
