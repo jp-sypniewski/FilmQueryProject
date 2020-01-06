@@ -20,6 +20,7 @@ This project provides a command-line application which retrieves and displays fi
 
 - Java
 - MySQL
+- Maven
 
 
 #### Lessons Learned
